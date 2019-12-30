@@ -1,14 +1,11 @@
 import React, { Component } from 'react'
 import { Text, View, StyleSheet, TouchableOpacity, TextInput } from 'react-native'
 
-class Login extends Component {
+class Register extends Component {
   state = {
+    name: '',
     email: '',
-    password: ''
-  };
-
-  login = () => {
-    this.props.navigation.navigate('Profile');
+    password: '',
   };
 
   render() {
@@ -16,8 +13,14 @@ class Login extends Component {
       <View style={styles.container}>
         <TextInput
           style={styles.input}
-          placeholder="Email"
+          placeholder="Nome"
           autoFocus={true}
+          value={this.state.name}
+          onChangeText={name => this.setState({ name })}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Email"
           keyboardType='email-address'
           value={this.state.email}
           onChangeText={email => this.setState({ email })}
@@ -25,19 +28,13 @@ class Login extends Component {
         <TextInput
           style={styles.input}
           placeholder="Senha"
-          secureTextEntry={true}
+          secureEntry={true}
           value={this.state.password}
           onChangeText={password => this.setState({ password })}
         />
-        <TouchableOpacity style={styles.button} onPress={this.login}>
-          <Text style={styles.buttonText}>Login</Text>
-        </TouchableOpacity>
 
-        <TouchableOpacity 
-          style={styles.button} 
-          onPress={() => this.props.navigation.navigate('Register') }
-        >
-          <Text style={styles.buttonText}>Nova conta</Text>
+        <TouchableOpacity style={styles.button} onPress={() => { }}>
+          <Text style={styles.buttonText}> Salvar </Text>
         </TouchableOpacity>
       </View>
     )
@@ -57,17 +54,19 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
   buttonText: {
-    fontSize: 20, 
+    fontSize: 20,
     color: '#FFF'
   },
   input: {
     marginTop: 20,
     width: '90%',
     backgroundColor: '#EEE',
+    height: 40,
     borderWidth: 1,
-    borderColor: "#333",
+    borderColor: '#333',
     borderRadius: 5,
+    paddingLeft: 15,
   }
 });
 
-export default Login;
+export default Register;
