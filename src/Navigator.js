@@ -4,6 +4,8 @@ import { createBottomTabNavigator } from 'react-navigation-tabs';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 import Feed from './screens/Feed';
+import AddPhoto from './screens/AddPhoto';
+import Profile from './screens/Profile';
 
 const MenuRoutes = {
   Feed: {
@@ -17,7 +19,7 @@ const MenuRoutes = {
   },
   Add: {
     name: 'AddPhoto',
-    screen: Feed,
+    screen: AddPhoto,
     navigationOptions: {
       title: 'Add Picture',
       tabBarIcon: ({ tintColor }) => 
@@ -26,7 +28,7 @@ const MenuRoutes = {
   },
   Profile: {
     name: 'Profile',
-    screen: Feed,
+    screen: Profile,
     navigationOptions: {
       title: 'Profile',
       tabBarIcon: ({ tintColor }) => 
