@@ -12,7 +12,6 @@ class Login extends Component {
   };
 
   login = () => {
-    console.log('props', this.props);
     this.props.onLogin({ ...this.state });
     this.props.navigation.navigate('Profile');
   };
