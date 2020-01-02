@@ -1,13 +1,19 @@
-import React, { Component } from 'react'
-import { Text, View, StyleSheet, TouchableOpacity, TextInput } from 'react-native'
+import React, { Component } from 'react';
+import { Text, View, StyleSheet, TouchableOpacity, TextInput } from 'react-native';
+import { connect } from 'react-redux';
+
+import { login } from '../store/actions/user'; 
 
 class Login extends Component {
   state = {
+    name: '',
     email: '',
     password: ''
   };
 
   login = () => {
+    console.log('props', this.props);
+    this.props.onLogin({ ...this.state });
     this.props.navigation.navigate('Profile');
   };
 
@@ -70,4 +76,11 @@ const styles = StyleSheet.create({
   }
 });
 
-export default Login;
+const mapDispatchToProps = dispatch => {
+  return {
+    onLogin: user => dispatch(login(user)),
+  }
+};
+  // bindActionCreators(, dispatch);
+
+export default connect(null, mapDispatchToProps) (Login);

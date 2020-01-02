@@ -1,20 +1,24 @@
 import React, { Component } from 'react'
 import { Text, View, StyleSheet, TouchableOpacity } from 'react-native'
 import { Gravatar } from 'react-native-gravatar';
+import { connect } from 'react-redux';
+
+import { logout } from '../store/actions/user';
 
 class Profile extends Component {
   logout = () => {
+    this.props.logout();
     this.props.navigation.navigate('Auth')
   };
 
   render() {
-    const options = { email: 'fulando@gmail.com', secure: true };
+    const options = { email: this.props.email, secure: true };
 
     return (
       <View style={styles.container}>
         <Gravatar style={styles.avatar} options={options} />
-        <Text style={styles.nickname}> Fulando de tal </Text>
-        <Text style={styles.email}> fulando@gmail.com </Text>
+        <Text style={styles.nickname}> {this.props.name} </Text>
+        <Text style={styles.email}> { this.props.email } </Text>
         <TouchableOpacity onPress={this.logout} style={styles.button}>
           <Text style={styles.buttonText}> Sair </Text>
         </TouchableOpacity>
@@ -55,4 +59,17 @@ const styles = StyleSheet.create({
   }
 });
 
-export default Profile;
+const mapStateToProps = ({ user }) => {
+  return {
+    email: user.email,
+    name: user.name,
+  }
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onLogout: () => dispatch(logout()),
+  }
+};
+  
+export default connect(mapStateToProps, mapDispatchToProps) (Profile);
