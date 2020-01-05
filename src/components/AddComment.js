@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { Text, View, StyleSheet, TextInput, TouchableWithoutFeedback as TWF, Alert } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { connect } from 'react-redux';
+
+import { addComment } from '../store/actions/posts';
 
 class AddComment extends Component {
   state = {
@@ -9,9 +12,17 @@ class AddComment extends Component {
   };
 
   handleAddComment = () => {
-    Alert.alert('Adicionado! ', this.state.comment);
+    this.props.onAddComment({
+      postId: this.props.postId,
+      comment: {
+        nickname: this.props.name,
+        comment: this.state.comment,
+      }
+    });
+
+    this.setState({ comment: '', editMode: false, });
   };
-  
+
   render() {
     let commentArea = null;
     if (this.state.editMode) {
@@ -32,7 +43,7 @@ class AddComment extends Component {
       );
     } else {
       commentArea = (
-        <TWF onPress={() => this.setState({ editMode: true }) }>
+        <TWF onPress={() => this.setState({ editMode: true })}>
           <View style={styles.container}>
             <Icon name='comment-o' size={25} color='#555' />
             <Text style={styles.caption}> Adicione um comentário... </Text>
@@ -43,7 +54,7 @@ class AddComment extends Component {
 
     return (
       <View style={{ flex: 1, }}>
-        { commentArea }
+        {commentArea}
       </View>
     )
   }
@@ -66,4 +77,13 @@ const styles = StyleSheet.create({
   }
 });
 
-export default AddComment;
+const mapStateToProps = ({ user }) => ({
+  name: user.name
+});
+
+const mapDispatchToProps = dispatch => ({
+  onAddComment: payload => dispatch(addComment(payload)),
+});
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddComment);
