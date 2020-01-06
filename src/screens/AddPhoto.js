@@ -17,6 +17,8 @@ import { connect } from 'react-redux';
 
 import { addPost } from '../store/actions/posts';
 
+const noUser = 'Você precisa estar logado para adicionar imagens';
+
 class AddPhoto extends Component {
   state = {
     image: null,
@@ -24,6 +26,11 @@ class AddPhoto extends Component {
   };
 
   pickImage = () => {
+    if (!this.props.name) {
+      Alert.alert('Falha!', noUser);
+      return;
+    };
+
     ImagePicker.showImagePicker({
       title: 'Escolha a imagem',
       maxHeight: 600,
@@ -36,10 +43,15 @@ class AddPhoto extends Component {
   };
 
   save = async () => {
+    if (!this.props.name) {
+      Alert.alert('Falha!', noUser);
+      return;
+    };
+
     this.props.onAddPost({
       id: Math.random(),
       nickname: this.props.name,
-      email: this.props.email, 
+      email: this.props.email,
       image: this.state.image,
       comments: [{
         nickname: this.props.name,
@@ -62,14 +74,14 @@ class AddPhoto extends Component {
           <TouchableOpacity style={styles.button} onPress={this.pickImage}>
             <Text style={styles.buttonText}>Escolha a foto</Text>
           </TouchableOpacity>
-          <TextInput 
+          <TextInput
             placeholder='Algum comentário para a foto?'
             style={styles.input}
             value={this.state.comment}
-            onChangeText={ comment => this.setState({ comment }) } 
+            onChangeText={comment => this.setState({ comment })}
           />
           <TouchableOpacity onPress={this.save} style={styles.button}>
-            <Text style={ styles.buttonText }>Salvar</Text>
+            <Text style={styles.buttonText}>Salvar</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>
@@ -114,10 +126,12 @@ const styles = StyleSheet.create({
   }
 });
 
-const mapStateToProps = ({user}) => ({
-  email: user.email,
-  name: user.name,
-});
+const mapStateToProps = ({ user }) => {
+  return {
+    email: user.email,
+    name: user.name,
+  }
+};
 
 const mapDispatchToProps = dispatch => ({
   onAddPost: post => dispatch(addPost(post)),

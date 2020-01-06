@@ -6,9 +6,7 @@ const Author = props => {
   return (
     <View style={styles.container}>
       <Gravatar options={{ email: props.email, secure: true }} style={styles.avatar} />
-      <Text style={styles.nickname}>
-        { props.nickname }
-      </Text>
+      <Text style={styles.nickname}> { props.nickname } </Text>
     </View>
   )
 };
